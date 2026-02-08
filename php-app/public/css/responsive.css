@@ -1,0 +1,24 @@
+/* ========== RESPONSIVE - Mobile ========== */
+
+@media (max-width: 768px) {
+    .search-form {
+        flex-direction: column !important;
+    }
+    
+    .search-form .btn {
+        width: 100%;
+    }
+    
+    /* Formulaires (création, etc.) */
+    .container[style*="max-width: 600px"] {
+        max-width: 100% !important;
+        padding: 0 0.75rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    footer {
+        padding: 1.5rem 1rem !important;
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,73 @@
+
+
+services:
+  # PHP Application (Main Backend/Frontend)
+  php-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    container_name: marketplace_php
+    ports:
+      - "8084:80"
+    volumes:
+      - ./php-app:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=marketplace_db
+      - DB_USER=user
+      - DB_PASSWORD=password
+    networks:
+      - marketplace_net
+
+  # Database (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: marketplace_db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: marketplace_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - marketplace_net
+
+  # PhpMyAdmin (For easy DB management)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: marketplace_pma
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8083:80"
+    depends_on:
+      - db
+    networks:
+      - marketplace_net
+
+  # Java Service (Spring Boot)
+  java-service:
+    build:
+      context: ./java-service
+      dockerfile: Dockerfile
+    container_name: marketplace_java
+    ports:
+      - "8082:8080"
+    depends_on:
+      - db
+    networks:
+      - marketplace_net
+
+networks:
+  marketplace_net:
+    driver: bridge
+
+volumes:
+  db_data:

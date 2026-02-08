@@ -1,0 +1,26 @@
+# PHP
+vendor/
+.env
+*.log
+
+# Java / Maven
+java-service/target/
+*.jar
+*.war
+
+# Uploads (fichiers utilisateurs)
+php-app/public/uploads/*
+!php-app/public/uploads/.gitkeep
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
