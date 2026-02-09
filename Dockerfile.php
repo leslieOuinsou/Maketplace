@@ -4,7 +4,9 @@ FROM php:8.2-apache
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
 # Fix: Ensure only one MPM is loaded (évite "More than one MPM loaded")
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.load && a2enmod mpm_prefork
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true && \
+    rm -f /etc/apache2/mods-enabled/mpm_*.conf /etc/apache2/mods-enabled/mpm_*.load && \
+    a2enmod mpm_prefork
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
@@ -22,3 +24,8 @@ WORKDIR /var/www/html
 
 # Copy application code (though volumes will override this in dev)
 COPY ./php-app /var/www/html
+
+# Entrypoint qui force un seul MPM au démarrage (fix Railway)
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
