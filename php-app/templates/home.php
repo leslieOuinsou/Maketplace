@@ -55,26 +55,36 @@ require __DIR__ . '/layout/header.php';
     </div>
 </section>
 
-<!-- Tendances -->
+<!-- À la une - Carousel dynamique -->
 <section class="section trends-home">
     <div class="section-header">
         <h2 class="section-title">À la une</h2>
-        <a href="/search" class="link-more">Voir tout →</a>
+        <div class="trends-nav">
+            <button type="button" class="carousel-btn carousel-prev" aria-label="Précédent">‹</button>
+            <button type="button" class="carousel-btn carousel-next" aria-label="Suivant">›</button>
+            <a href="/search" class="link-more">Voir tout →</a>
+        </div>
     </div>
-    <div class="items-grid">
-        <?php foreach ($featuredItems as $item): ?>
-        <a href="/items/view?id=<?= (int)$item['id'] ?>" class="item-card">
-            <div class="item-card-img">
-                <img src="<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>">
-            </div>
-            <div class="item-card-body">
-                <span class="item-category"><?= htmlspecialchars($item['category']) ?></span>
-                <h3 class="item-title"><?= htmlspecialchars($item['title']) ?></h3>
-                <span class="item-price"><?= number_format($item['price'], 2) ?> €</span>
-            </div>
-        </a>
-        <?php endforeach; ?>
+    <div class="carousel-wrapper">
+        <div class="carousel-track" id="carousel-track">
+            <?php foreach ($featuredItems as $index => $item): ?>
+            <a href="/items/view?id=<?= (int)$item['id'] ?>" class="item-card carousel-card" style="animation-delay: <?= $index * 0.08 ?>s">
+                <div class="item-card-img">
+                    <img src="<?= htmlspecialchars($item['image']) ?>" alt="<?= htmlspecialchars($item['title']) ?>" loading="lazy">
+                    <div class="item-card-overlay">
+                        <span class="overlay-text">Voir l'annonce</span>
+                    </div>
+                </div>
+                <div class="item-card-body">
+                    <span class="item-category"><?= htmlspecialchars($item['category']) ?></span>
+                    <h3 class="item-title"><?= htmlspecialchars($item['title']) ?></h3>
+                    <span class="item-price"><?= number_format($item['price'], 2) ?> €</span>
+                </div>
+            </a>
+            <?php endforeach; ?>
+        </div>
     </div>
+    <div class="carousel-dots" id="carousel-dots"></div>
 </section>
 
 <!-- Comment ça marche -->
@@ -278,6 +288,87 @@ require __DIR__ . '/layout/header.php';
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.25rem;
 }
+
+/* À la une - Carousel */
+.trends-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.carousel-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background: white;
+    color: var(--primary);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.carousel-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: scale(1.05);
+}
+.carousel-wrapper {
+    overflow: hidden;
+    margin: 0 -1rem;
+}
+.carousel-track {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0.5rem 1rem;
+    -webkit-overflow-scrolling: touch;
+}
+.carousel-track::-webkit-scrollbar {
+    height: 6px;
+}
+.carousel-track::-webkit-scrollbar-track {
+    background: var(--secondary);
+    border-radius: 3px;
+}
+.carousel-track::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 3px;
+}
+.carousel-card {
+    flex: 0 0 220px;
+    scroll-snap-align: start;
+}
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ddd;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.carousel-dot.active {
+    background: var(--primary);
+    width: 24px;
+    border-radius: 4px;
+}
+.carousel-dot:hover {
+    background: var(--primary);
+    opacity: 0.7;
+}
+
 .item-card {
     background: white;
     border-radius: 12px;
@@ -285,26 +376,66 @@ require __DIR__ . '/layout/header.php';
     text-decoration: none;
     color: inherit;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: fadeSlideUp 0.6s ease both;
+}
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 .item-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 16px 32px rgba(0,119,130,0.15);
 }
 .item-card-img {
     aspect-ratio: 1;
     overflow: hidden;
+    position: relative;
 }
 .item-card-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.item-card:hover .item-card-img img {
+    transform: scale(1.1);
+}
+.item-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,119,130,0.9), transparent 50%);
+    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+    transition: opacity 0.3s;
+}
+.item-card:hover .item-card-overlay {
+    opacity: 1;
+}
+.overlay-text {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transform: translateY(10px);
+    transition: transform 0.3s;
+}
+.item-card:hover .overlay-text {
+    transform: translateY(0);
 }
 .item-card-body { padding: 1rem; }
 .item-category {
     font-size: 0.75rem;
     color: var(--text-light);
     text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 .item-title {
     margin: 0.25rem 0 0.5rem;
@@ -449,6 +580,14 @@ require __DIR__ . '/layout/header.php';
     .category-label {
         font-size: 0.9rem;
     }
+    .carousel-card {
+        flex: 0 0 180px;
+    }
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+    }
     .items-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
@@ -495,10 +634,67 @@ require __DIR__ . '/layout/header.php';
     .categories-grid {
         grid-template-columns: 1fr;
     }
+    .carousel-card {
+        flex: 0 0 160px;
+    }
     .items-grid {
         grid-template-columns: 1fr;
     }
 }
 </style>
+
+<script>
+(function() {
+    var track = document.getElementById('carousel-track');
+    var dotsContainer = document.getElementById('carousel-dots');
+    var prevBtn = document.querySelector('.carousel-prev');
+    var nextBtn = document.querySelector('.carousel-next');
+    if (!track || !dotsContainer) return;
+
+    var cards = track.querySelectorAll('.carousel-card');
+    var cardWidth = 220 + 20;
+    var visibleCount = Math.floor(track.offsetWidth / cardWidth) || 1;
+    var totalSlides = Math.max(1, Math.ceil(cards.length / visibleCount));
+
+    function updateDots() {
+        var scroll = track.scrollLeft;
+        var index = Math.round(scroll / (cardWidth * visibleCount));
+        index = Math.min(index, totalSlides - 1);
+        dotsContainer.querySelectorAll('.carousel-dot').forEach(function(dot, i) {
+            dot.classList.toggle('active', i === index);
+        });
+    }
+
+    for (var i = 0; i < totalSlides; i++) {
+        (function(idx) {
+            var dot = document.createElement('button');
+            dot.className = 'carousel-dot' + (idx === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', 'Slide ' + (idx + 1));
+            dot.addEventListener('click', function() {
+                track.scrollTo({ left: idx * cardWidth * visibleCount, behavior: 'smooth' });
+            });
+            dotsContainer.appendChild(dot);
+        })(i);
+    }
+
+    prevBtn.addEventListener('click', function() {
+        track.scrollBy({ left: -cardWidth * visibleCount, behavior: 'smooth' });
+    });
+    nextBtn.addEventListener('click', function() {
+        track.scrollBy({ left: cardWidth * visibleCount, behavior: 'smooth' });
+    });
+    track.addEventListener('scroll', function() {
+        requestAnimationFrame(updateDots);
+    });
+
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+            visibleCount = Math.floor(track.offsetWidth / cardWidth) || 1;
+        }, 200);
+    });
+})();
+</script>
 
 <?php require __DIR__ . '/layout/footer.php'; ?>
