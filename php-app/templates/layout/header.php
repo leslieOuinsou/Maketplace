@@ -332,6 +332,7 @@
     </style>
     <link rel="stylesheet" href="/css/responsive.css">
     <link rel="stylesheet" href="/css/ux-enhancements.css">
+    <link rel="stylesheet" href="/css/ui-enhancements.css">
 </head>
 <body>
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>
