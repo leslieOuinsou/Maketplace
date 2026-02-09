@@ -577,17 +577,23 @@ require __DIR__ . '/layout/header.php';
     }
     .hero-ctas {
         flex-direction: column;
+        flex-wrap: nowrap;
         gap: 0.75rem;
         width: 100%;
+        max-width: 100%;
     }
-    .hero-ctas .btn {
+    .hero-ctas .btn,
+    .hero-ctas .btn-primary,
+    .hero-ctas .btn-hero-outline {
         width: 100%;
+        max-width: 100%;
         text-align: center;
         min-height: 48px;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 1rem 1.25rem;
+        box-sizing: border-box;
     }
     .section {
         padding: 2rem 0;
@@ -646,6 +652,14 @@ require __DIR__ . '/layout/header.php';
         font-size: 1.25rem;
     }
 }
+@media (max-width: 600px) {
+    .hero-ctas {
+        flex-direction: column;
+    }
+    .hero-ctas .btn {
+        width: 100%;
+    }
+}
 @media (max-width: 480px) {
     .hero-home {
         min-height: min(380px, 90vh);
@@ -662,6 +676,10 @@ require __DIR__ . '/layout/header.php';
     }
     .hero-search-input {
         padding: 0.9rem 1rem;
+    }
+    .hero-ctas .btn {
+        font-size: 1rem;
+        padding: 1rem;
     }
     .categories-grid {
         grid-template-columns: 1fr;

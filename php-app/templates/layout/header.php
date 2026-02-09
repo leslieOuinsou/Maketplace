@@ -284,14 +284,19 @@
                 width: 100%;
                 display: flex;
                 flex-direction: column;
-                gap: 0.5rem;
+                flex-wrap: nowrap;
+                gap: 0.75rem;
             }
-            .auth-buttons .btn {
+            .auth-buttons .btn,
+            .auth-buttons .btn-primary,
+            .auth-buttons .btn-outline {
                 width: 100%;
+                max-width: 100%;
                 justify-content: center;
-                min-height: 44px;
+                min-height: 48px;
                 font-size: 1rem;
-                padding: 0.75rem 1rem;
+                padding: 1rem 1.25rem;
+                box-sizing: border-box;
             }
             .user-avatar {
                 flex-direction: column;
@@ -307,10 +312,22 @@
             .container { margin: 1rem auto; padding: 0 1rem; }
             .auth-form { margin: 1.5rem auto; padding: 1.25rem; }
         }
+        @media (max-width: 600px) {
+            .auth-buttons {
+                flex-direction: column;
+            }
+            .auth-buttons .btn {
+                width: 100%;
+            }
+        }
         @media (max-width: 480px) {
             .navbar { padding: 0.5rem 0.75rem; }
             .logo span { max-width: 100px; }
             .user-initials { width: 36px; height: 36px; font-size: 0.9rem; }
+            .auth-buttons .btn {
+                font-size: 1rem;
+                padding: 1rem;
+            }
         }
     </style>
     <link rel="stylesheet" href="/css/responsive.css">
