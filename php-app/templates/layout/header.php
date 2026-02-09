@@ -30,10 +30,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: nowrap;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
+        }
+
+        .navbar-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
         }
 
         .logo {
@@ -44,15 +52,23 @@
             font-weight: bold;
             color: var(--primary);
             text-decoration: none;
+            flex-shrink: 0;
         }
         .logo img {
             height: 40px;
             width: auto;
         }
 
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
         .nav-links {
             display: flex;
             gap: 1.5rem;
+            align-items: center;
         }
 
         .nav-links a {
@@ -60,6 +76,7 @@
             color: var(--text-light);
             font-weight: 500;
             transition: color 0.2s;
+            white-space: nowrap;
         }
 
         .nav-links a:hover {
@@ -84,6 +101,38 @@
             padding: 0 4px;
         }
 
+        /* Hamburger - caché sur desktop */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-dark);
+            border-radius: 2px;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
+        }
+
         .btn {
             padding: 0.5rem 1rem;
             border-radius: 4px;
@@ -92,6 +141,9 @@
             transition: all 0.2s;
             cursor: pointer;
             border: 1px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -189,20 +241,75 @@
 
         h1, h2, h3 { color: var(--text-dark); }
 
-        /* Responsive */
+        /* Responsive - Mobile */
         @media (max-width: 768px) {
-            .navbar { flex-wrap: wrap; padding: 0.75rem 1rem; gap: 0.5rem; }
-            .navbar .logo { font-size: 1.25rem; }
-            .navbar .logo img { height: 32px; }
-            .navbar .nav-links { width: 100%; order: 3; justify-content: center; padding-top: 0.5rem; border-top: 1px solid #eee; }
-            .navbar .auth-buttons { order: 2; margin-left: auto; }
-            .user-avatar { flex-wrap: wrap; gap: 0.5rem; }
-            .user-menu .btn { padding: 0.35rem 0.6rem; font-size: 0.85rem; }
-            .auth-buttons .btn-outline, .auth-buttons .btn-primary { padding: 0.4rem 0.75rem; font-size: 0.9rem; }
-            .container { margin: 1rem auto; padding: 0 0.75rem; }
+            .navbar { padding: 0.6rem 1rem; }
+            .navbar-inner { flex-wrap: wrap; }
+            .logo { font-size: 1.2rem; }
+            .logo img { height: 32px; }
+            .logo span { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .hamburger { display: flex; }
+            .nav-wrapper {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                flex-direction: column;
+                gap: 0;
+                padding: 1rem;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                border-top: 1px solid #eee;
+            }
+            .nav-wrapper.open { display: flex; }
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
+                padding-bottom: 1rem;
+                border-bottom: 1px solid #eee;
+                margin-bottom: 1rem;
+            }
+            .nav-links a {
+                padding: 0.75rem 0;
+                width: 100%;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                font-size: 1rem;
+                -webkit-tap-highlight-color: transparent;
+            }
+            .auth-buttons {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .auth-buttons .btn {
+                width: 100%;
+                justify-content: center;
+                min-height: 44px;
+                font-size: 1rem;
+                padding: 0.75rem 1rem;
+            }
+            .user-avatar {
+                flex-direction: column;
+                width: 100%;
+                gap: 1rem;
+                align-items: stretch;
+            }
+            .user-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .user-menu .btn { width: 100%; justify-content: center; min-height: 44px; }
+            .container { margin: 1rem auto; padding: 0 1rem; }
             .auth-form { margin: 1.5rem auto; padding: 1.25rem; }
         }
         @media (max-width: 480px) {
+            .navbar { padding: 0.5rem 0.75rem; }
+            .logo span { max-width: 100px; }
             .user-initials { width: 36px; height: 36px; font-size: 0.9rem; }
         }
     </style>
@@ -210,50 +317,77 @@
 </head>
 <body>
     <nav class="navbar">
-        <a href="/" class="logo">
-            <img src="/images/logo.png" alt="Marketplace">
-            <span>Marketplace</span>
-        </a>
-        <div class="nav-links">
-            <a href="/">Accueil</a>
-            <a href="/search">Rechercher</a>
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <?php $unreadCount = \App\Controllers\MessageController::getUnreadCount(); ?>
-                <a href="/messages" class="nav-messages">
-                    Messages
-                    <?php if ($unreadCount > 0): ?>
-                        <span class="msg-badge"><?= $unreadCount ?></span>
+        <div class="navbar-inner">
+            <a href="/" class="logo">
+                <img src="/images/logo.png" alt="Marketplace">
+                <span>Marketplace</span>
+            </a>
+            <button type="button" class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-wrapper" id="nav-wrapper">
+                <div class="nav-links">
+                    <a href="/">Accueil</a>
+                    <a href="/search">Rechercher</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php $unreadCount = \App\Controllers\MessageController::getUnreadCount(); ?>
+                        <a href="/messages" class="nav-messages">
+                            Messages
+                            <?php if ($unreadCount > 0): ?>
+                                <span class="msg-badge"><?= $unreadCount ?></span>
+                            <?php endif; ?>
+                        </a>
                     <?php endif; ?>
-                </a>
-            <?php endif; ?>
-        </div>
-        <div class="auth-buttons">
-            <?php
-            $initials = '?';
-            if (isset($_SESSION['user_id'], $_SESSION['username'])) {
-                $u = preg_split('/[\s_\.\-]+/', trim($_SESSION['username']), 2);
-                $initials = strtoupper(mb_substr($u[0], 0, 1));
-                if (isset($u[1])) $initials .= strtoupper(mb_substr($u[1], 0, 1));
-            }
-            ?>
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <?php
-                $role = $_SESSION['role'] ?? 'les_deux';
-                $canSell = in_array($role, ['vendeur', 'les_deux']);
-                ?>
-                <div class="user-avatar">
-                    <span class="user-initials" title="<?= htmlspecialchars($_SESSION['username'] ?? '') ?> (<?= $role === 'acheteur' ? 'Acheteur' : ($role === 'vendeur' ? 'Vendeur' : 'Acheteur & Vendeur') ?>)"><?= htmlspecialchars($initials) ?></span>
-                    <div class="user-menu">
-                        <?php if ($canSell): ?>
-                            <a href="/items/create" class="btn btn-primary">Vendre</a>
-                        <?php endif; ?>
-                        <a href="/logout" class="btn btn-outline">Déconnexion</a>
-                    </div>
                 </div>
-            <?php else: ?>
-                <a href="/login" class="btn btn-outline">Se connecter</a>
-                <a href="/register" class="btn btn-primary">S'inscrire</a>
-            <?php endif; ?>
+                <div class="auth-buttons">
+                    <?php
+                    $initials = '?';
+                    if (isset($_SESSION['user_id'], $_SESSION['username'])) {
+                        $u = preg_split('/[\s_\.\-]+/', trim($_SESSION['username']), 2);
+                        $initials = strtoupper(mb_substr($u[0], 0, 1));
+                        if (isset($u[1])) $initials .= strtoupper(mb_substr($u[1], 0, 1));
+                    }
+                    ?>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php
+                        $role = $_SESSION['role'] ?? 'les_deux';
+                        $canSell = in_array($role, ['vendeur', 'les_deux']);
+                        ?>
+                        <div class="user-avatar">
+                            <span class="user-initials" title="<?= htmlspecialchars($_SESSION['username'] ?? '') ?> (<?= $role === 'acheteur' ? 'Acheteur' : ($role === 'vendeur' ? 'Vendeur' : 'Acheteur & Vendeur') ?>)"><?= htmlspecialchars($initials) ?></span>
+                            <div class="user-menu">
+                                <?php if ($canSell): ?>
+                                    <a href="/items/create" class="btn btn-primary">Vendre</a>
+                                <?php endif; ?>
+                                <a href="/logout" class="btn btn-outline">Déconnexion</a>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <a href="/login" class="btn btn-outline">Se connecter</a>
+                        <a href="/register" class="btn btn-primary">S'inscrire</a>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
     </nav>
+    <script>
+        (function() {
+            var h = document.getElementById('hamburger');
+            var n = document.getElementById('nav-wrapper');
+            if (h && n) {
+                h.addEventListener('click', function() {
+                    h.classList.toggle('active');
+                    n.classList.toggle('open');
+                    document.body.style.overflow = n.classList.contains('open') ? 'hidden' : '';
+                });
+                n.querySelectorAll('a').forEach(function(a) {
+                    a.addEventListener('click', function() {
+                        h.classList.remove('active');
+                        n.classList.remove('open');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+        })();
+    </script>
     <div class="container">

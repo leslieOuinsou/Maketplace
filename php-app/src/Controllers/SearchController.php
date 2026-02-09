@@ -74,7 +74,8 @@ class SearchController {
             $sampleResults = array_values($filteredSamples);
 
             // Optionnel : enrichir avec le microservice Java
-            $apiUrl = "http://java-service:8080/api/search?q=" . urlencode($query);
+            $javaUrl = getenv('JAVA_SERVICE_URL') ?: 'http://java-service:8080';
+            $apiUrl = rtrim($javaUrl, '/') . "/api/search?q=" . urlencode($query);
             $ctx = stream_context_create(['http' => ['timeout' => 2]]);
             $response = @file_get_contents($apiUrl, false, $ctx);
             if ($response) {

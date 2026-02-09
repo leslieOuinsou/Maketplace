@@ -1,0 +1,4 @@
+# Configuration Railway - Service Java
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"

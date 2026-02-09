@@ -1,0 +1,5 @@
+# Configuration Railway - Service PHP (application principale)
+# Ce fichier aide Railway à détecter comment builder le projet
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile.php"
