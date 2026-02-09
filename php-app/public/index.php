@@ -113,6 +113,11 @@ switch ($requestUri) {
         (new \App\Controllers\SearchController())->index();
         break;
 
+    case '/setup-db.php':
+    case '/setup-db':
+        require __DIR__ . '/setup-db.php';
+        break;
+
     default:
         http_response_code(404);
         require __DIR__ . '/../templates/404.php';
