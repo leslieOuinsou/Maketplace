@@ -333,6 +333,14 @@
     <link rel="stylesheet" href="/css/responsive.css">
     <link rel="stylesheet" href="/css/ux-enhancements.css">
     <link rel="stylesheet" href="/css/ui-enhancements.css">
+    <link rel="stylesheet" href="/css/micro-interactions.css">
+    
+    <!-- Scripts UX -->
+    <script src="/js/toast-notifications.js" defer></script>
+    <script src="/js/loading-states.js" defer></script>
+    <script src="/js/accessibility-helpers.js" defer></script>
+    <script src="/js/image-optimizer.js" defer></script>
+    <script src="/js/enhanced-forms.js" defer></script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Aller au contenu principal</a>

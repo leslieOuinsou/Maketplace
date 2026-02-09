@@ -1,0 +1,426 @@
+/**
+ * Micro-interactions et animations UX
+ */
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 400px;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.toast-hide {
+    transform: translateX(400px);
+    opacity: 0;
+}
+
+.toast-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.toast-success .toast-icon {
+    background: #22c55e;
+    color: white;
+}
+
+.toast-error .toast-icon {
+    background: #dc2626;
+    color: white;
+}
+
+.toast-warning .toast-icon {
+    background: #f59e0b;
+    color: white;
+}
+
+.toast-info .toast-icon {
+    background: #3b82f6;
+    color: white;
+}
+
+.toast-message {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-light);
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.toast-close:hover {
+    color: var(--text-dark);
+}
+
+/* ============================================
+   LOADING OVERLAY
+   ============================================ */
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.loading-overlay-show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loading-spinner {
+    text-align: center;
+    color: white;
+}
+
+.spinner-ring {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.spinner-text {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ============================================
+   BUTTON LOADING STATE
+   ============================================ */
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+/* ============================================
+   FORM VALIDATION FEEDBACK
+   ============================================ */
+.field-valid {
+    border-color: #22c55e !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2322c55e'%3E%3Cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    padding-right: 2.5rem !important;
+}
+
+.field-invalid {
+    border-color: #dc2626 !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23dc2626'%3E%3Cpath d='M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z'/%3E%3Cpath d='M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px;
+    padding-right: 2.5rem !important;
+}
+
+.field-error {
+    color: #dc2626;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Shake animation pour les erreurs */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+/* ============================================
+   IMAGE PREVIEW
+   ============================================ */
+.image-preview {
+    margin-top: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease;
+}
+
+.image-preview img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.image-preview-info {
+    padding: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9fafb;
+}
+
+.image-preview-name {
+    font-size: 0.875rem;
+    color: var(--text-dark);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.image-preview-remove {
+    background: #dc2626;
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.image-preview-remove:hover {
+    transform: scale(1.1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ============================================
+   PASSWORD STRENGTH
+   ============================================ */
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.password-strength-bar {
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+}
+
+.password-strength-fill {
+    height: 100%;
+    width: 0;
+    transition: width 0.3s, background-color 0.3s;
+    border-radius: 2px;
+}
+
+.password-strength-text {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0.25rem;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.password-toggle:hover {
+    opacity: 1;
+}
+
+/* ============================================
+   CHARACTER COUNTER
+   ============================================ */
+.character-counter {
+    text-align: right;
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+}
+
+.counter-warning {
+    color: #f59e0b;
+    font-weight: 500;
+}
+
+/* ============================================
+   SKELETON LOADERS
+   ============================================ */
+.skeleton-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.25rem;
+}
+
+.skeleton-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-body {
+    padding: 1rem;
+}
+
+.skeleton-line {
+    height: 12px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-line-sm { width: 40%; }
+.skeleton-line-md { width: 70%; }
+.skeleton-line-lg { width: 90%; }
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* ============================================
+   RIPPLE EFFECT (Boutons)
+   ============================================ */
+.btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .toast-container {
+        left: 1rem;
+        right: 1rem;
+        max-width: none;
+    }
+    
+    .toast {
+        transform: translateY(-100px);
+    }
+    
+    .toast-show {
+        transform: translateY(0);
+    }
+    
+    .toast-hide {
+        transform: translateY(-100px);
+    }
+}
