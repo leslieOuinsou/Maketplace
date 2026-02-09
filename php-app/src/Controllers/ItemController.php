@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Config\Database;
 use App\Config\SampleItems;
+use App\Utils\Upload;
 use PDO;
 
 class ItemController {
@@ -29,23 +30,19 @@ class ItemController {
             $price = $_POST['price'] ?? 0;
             $category_id = $_POST['category_id'] ?? null;
             $user_id = $_SESSION['user_id'];
-            
-            // Image Upload Handling (Basic)
+
             $image_url = null;
-            if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = dirname(__DIR__, 2) . '/public/uploads/';
-                if (!is_dir($uploadDir)) @mkdir($uploadDir, 0777, true);
-                $baseName = preg_replace('/[^a-zA-Z0-9\.\-_]/', '_', basename($_FILES['image']['name']));
-                $filename = uniqid() . '-' . $baseName;
-                $destPath = $uploadDir . $filename;
-                if (@move_uploaded_file($_FILES['image']['tmp_name'], $destPath)) {
-                    $image_url = '/uploads/' . $filename;
-                }
+            $upload = new Upload();
+            $uploadedUrl = $upload->handleImageUpload();
+            if ($uploadedUrl !== null) {
+                $image_url = $uploadedUrl;
+            } elseif ($upload->getLastError() !== null) {
+                header('Location: /items/create?error=' . urlencode($upload->getLastError()));
+                exit;
             }
 
             if (empty($title) || empty($price)) {
-                // Handle error
-                header('Location: /items/create?error=Titre et prix requis');
+                header('Location: /items/create?error=' . urlencode('Titre et prix requis'));
                 exit;
             }
 
@@ -55,7 +52,7 @@ class ItemController {
                 header("Location: /items/view?id=$id");
                 exit;
             } else {
-                header('Location: /items/create?error=Erreur serveur');
+                header('Location: /items/create?error=' . urlencode('Erreur serveur'));
                 exit;
             }
         }
@@ -204,14 +201,13 @@ class ItemController {
             $image_url = $row['image_url'];
         }
 
-        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = dirname(__DIR__, 2) . '/public/uploads/';
-            if (!is_dir($uploadDir)) @mkdir($uploadDir, 0777, true);
-            $baseName = preg_replace('/[^a-zA-Z0-9\.\-_]/', '_', basename($_FILES['image']['name']));
-            $filename = uniqid() . '-' . $baseName;
-            if (@move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $filename)) {
-                $image_url = '/uploads/' . $filename;
-            }
+        $upload = new Upload();
+        $uploadedUrl = $upload->handleImageUpload();
+        if ($uploadedUrl !== null) {
+            $image_url = $uploadedUrl;
+        } elseif ($upload->getLastError() !== null) {
+            header('Location: /items/edit?id=' . (int)$id . '&error=' . urlencode($upload->getLastError()));
+            exit;
         }
 
         $stmt = $this->db->prepare("UPDATE items SET title = ?, description = ?, price = ?, category_id = ?, image_url = ? WHERE id = ? AND user_id = ?");

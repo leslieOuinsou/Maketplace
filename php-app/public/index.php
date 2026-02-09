@@ -1,6 +1,9 @@
 <?php
 // php-app/public/index.php
 
+// Buffer de sortie : évite "headers already sent" si une erreur/warning est émise avant un header()
+ob_start();
+
 // Autoloader (manual for now, can perform `composer dump-autoload` if we add composer later)
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';
