@@ -25,6 +25,9 @@ WORKDIR /var/www/html
 # Copy application code (though volumes will override this in dev)
 COPY ./php-app /var/www/html
 
+# Permissions uploads (écriture pour tous - Railway peut utiliser un autre user)
+RUN mkdir -p /var/www/html/public/uploads && chmod 777 /var/www/html/public/uploads
+
 # Entrypoint qui force un seul MPM au démarrage (fix Railway)
 COPY docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

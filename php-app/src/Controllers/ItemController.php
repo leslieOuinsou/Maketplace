@@ -33,12 +33,13 @@ class ItemController {
             // Image Upload Handling (Basic)
             $image_url = null;
             if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-                $uploadDir = __DIR__ . '/../../public/uploads/';
-                if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-                
-                $filename = uniqid() . '-' . basename($_FILES['image']['name']);
-                if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $filename)) {
-                    $image_url = '/uploads/' . $filename; // Public path
+                $uploadDir = dirname(__DIR__, 2) . '/public/uploads/';
+                if (!is_dir($uploadDir)) @mkdir($uploadDir, 0777, true);
+                $baseName = preg_replace('/[^a-zA-Z0-9\.\-_]/', '_', basename($_FILES['image']['name']));
+                $filename = uniqid() . '-' . $baseName;
+                $destPath = $uploadDir . $filename;
+                if (@move_uploaded_file($_FILES['image']['tmp_name'], $destPath)) {
+                    $image_url = '/uploads/' . $filename;
                 }
             }
 
@@ -204,10 +205,11 @@ class ItemController {
         }
 
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = __DIR__ . '/../../public/uploads/';
-            if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
-            $filename = uniqid() . '-' . basename($_FILES['image']['name']);
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $filename)) {
+            $uploadDir = dirname(__DIR__, 2) . '/public/uploads/';
+            if (!is_dir($uploadDir)) @mkdir($uploadDir, 0777, true);
+            $baseName = preg_replace('/[^a-zA-Z0-9\.\-_]/', '_', basename($_FILES['image']['name']));
+            $filename = uniqid() . '-' . $baseName;
+            if (@move_uploaded_file($_FILES['image']['tmp_name'], $uploadDir . $filename)) {
                 $image_url = '/uploads/' . $filename;
             }
         }

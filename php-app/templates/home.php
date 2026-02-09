@@ -535,37 +535,59 @@ require __DIR__ . '/layout/header.php';
 /* Responsive mobile */
 @media (max-width: 768px) {
     .hero-home {
-        min-height: 420px;
+        min-height: min(420px, 85vh);
         margin: 0;
+        padding: 1rem 0;
+        overflow-x: hidden;
     }
     .hero-content {
-        padding: 1.5rem 0.75rem;
+        padding: 1.25rem 1rem;
+        width: 100%;
+        box-sizing: border-box;
     }
     .hero-title {
-        font-size: 1.6rem;
+        font-size: 1.75rem;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
     }
     .hero-subtitle {
         font-size: 1rem;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.25rem;
+        line-height: 1.4;
+        padding: 0 0.5rem;
     }
     .hero-search {
         flex-direction: column;
+        flex-wrap: nowrap;
         border-radius: 12px;
-        margin: 0 auto 1rem;
+        margin: 0 0 1.25rem;
+        width: 100%;
+        max-width: none;
     }
     .hero-search-input {
-        padding: 0.9rem 1rem;
+        padding: 1rem 1.25rem;
+        font-size: 16px; /* évite le zoom iOS */
+        min-height: 48px;
     }
     .hero-search-btn {
         width: 100%;
+        min-height: 48px;
+        padding: 1rem;
+        border-radius: 0 0 12px 12px;
     }
     .hero-ctas {
         flex-direction: column;
         gap: 0.75rem;
+        width: 100%;
     }
     .hero-ctas .btn {
         width: 100%;
         text-align: center;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 1.25rem;
     }
     .section {
         padding: 2rem 0;
@@ -626,10 +648,41 @@ require __DIR__ . '/layout/header.php';
 }
 @media (max-width: 480px) {
     .hero-home {
-        min-height: 380px;
+        min-height: min(380px, 90vh);
+    }
+    .hero-content {
+        padding: 1rem 0.75rem;
     }
     .hero-title {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
+    }
+    .hero-subtitle {
+        font-size: 0.95rem;
+        padding: 0;
+    }
+    .hero-search-input {
+        padding: 0.9rem 1rem;
+    }
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+    .carousel-card {
+        flex: 0 0 160px;
+    }
+    .items-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 375px) {
+    .hero-home {
+        min-height: min(360px, 85vh);
+    }
+    .hero-title {
+        font-size: 1.35rem;
+    }
+    .hero-subtitle {
+        font-size: 0.9rem;
     }
     .categories-grid {
         grid-template-columns: 1fr;
