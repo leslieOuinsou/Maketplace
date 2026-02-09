@@ -6,6 +6,19 @@ $featuredItems = array_slice($featuredItems, 0, 6);
 require __DIR__ . '/layout/header.php';
 ?>
 
+<div id="page-loader" class="page-loader">
+    <div class="loader-content">
+        <div class="loader-logo">
+            <img src="/images/logo.png" alt="Marketplace">
+        </div>
+        <h2 class="loader-title">Marketplace</h2>
+        <p class="loader-tagline">Vendez. Achetez. Revendez.</p>
+        <div class="loader-bar">
+            <div class="loader-bar-fill"></div>
+        </div>
+    </div>
+</div>
+
 <?php if (isset($_GET['error'])): ?>
 <div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><?= htmlspecialchars($_GET['error']) ?></div>
 <?php endif; ?>
@@ -137,6 +150,70 @@ require __DIR__ . '/layout/header.php';
 </section>
 
 <style>
+/* Page Loader */
+.page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: linear-gradient(135deg, #007782 0%, #005a64 50%, #004a52 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+.page-loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.loader-content {
+    text-align: center;
+    color: white;
+}
+.loader-logo {
+    margin-bottom: 1rem;
+    animation: loaderPulse 1.5s ease-in-out infinite;
+}
+.loader-logo img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+.loader-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+    letter-spacing: -0.02em;
+}
+.loader-tagline {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    margin: 0 0 2rem;
+}
+.loader-bar {
+    width: 180px;
+    height: 4px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.loader-bar-fill {
+    height: 100%;
+    width: 40%;
+    background: white;
+    border-radius: 2px;
+    animation: loaderBar 1.2s ease-in-out infinite;
+}
+@keyframes loaderPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.85; transform: scale(1.05); }
+}
+@keyframes loaderBar {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+}
+
 /* Hero */
 .hero-home {
     position: relative;
@@ -532,6 +609,14 @@ require __DIR__ . '/layout/header.php';
     color: var(--text-light);
 }
 
+/* Loader responsive */
+@media (max-width: 480px) {
+    .loader-logo img { width: 60px; height: 60px; }
+    .loader-title { font-size: 1.4rem; }
+    .loader-tagline { font-size: 0.9rem; }
+    .loader-bar { width: 140px; }
+}
+
 /* Responsive mobile */
 @media (max-width: 768px) {
     .hero-home {
@@ -714,6 +799,27 @@ require __DIR__ . '/layout/header.php';
 }
 </style>
 
+<script>
+(function() {
+    var loader = document.getElementById('page-loader');
+    if (loader) {
+        var minTime = 5000;
+        var start = Date.now();
+        function hideLoader() {
+            var elapsed = Date.now() - start;
+            var delay = Math.max(0, minTime - elapsed);
+            setTimeout(function() {
+                loader.classList.add('loaded');
+            }, delay);
+        }
+        if (document.readyState === 'complete') {
+            hideLoader();
+        } else {
+            window.addEventListener('load', hideLoader);
+        }
+    }
+})();
+</script>
 <script>
 (function() {
     var track = document.getElementById('carousel-track');
