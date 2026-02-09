@@ -5,16 +5,14 @@ require __DIR__ . '/../layout/header.php';
 ?>
 
 <div class="container" style="max-width: 600px;">
-    <a href="/items/view?id=<?= (int)($item['id'] ?? 0) ?>" style="display: inline-block; margin-bottom: 1rem; color: var(--primary); text-decoration: none;">← Retour à l'annonce</a>
+    <a href="/items/view?id=<?= (int)($item['id'] ?? 0) ?>" class="back-link" style="margin-bottom: 1rem;">← Retour à l'annonce</a>
     <h2>Modifier l'annonce</h2>
     
     <?php if (isset($_GET['error'])): ?>
-        <div style="background: #fdf2f2; color: #dc3545; padding: 10px; margin-bottom: 1rem; border-radius: 4px;">
-            <?= htmlspecialchars($_GET['error']) ?>
-        </div>
+        <div class="msg-alert msg-error"><?= htmlspecialchars($_GET['error']) ?></div>
     <?php endif; ?>
 
-    <form action="/items/update" method="POST" enctype="multipart/form-data" style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+    <form action="/items/update" method="POST" enctype="multipart/form-data" class="form-card">
         <input type="hidden" name="id" value="<?= (int)($item['id'] ?? 0) ?>">
         
         <div class="form-group">

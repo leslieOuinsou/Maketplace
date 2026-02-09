@@ -9,9 +9,7 @@
     <h2 style="text-align: center; margin-bottom: 2rem;">Créer un compte</h2>
     
     <?php if (isset($_GET['error'])): ?>
-        <div style="background: #fdf2f2; color: #dc3545; padding: 10px; border-radius: 4px; margin-bottom: 1rem;">
-            <?= htmlspecialchars($_GET['error']) ?>
-        </div>
+        <div class="msg-alert msg-error"><?= htmlspecialchars($_GET['error']) ?></div>
     <?php endif; ?>
 
     <form action="/register" method="POST">

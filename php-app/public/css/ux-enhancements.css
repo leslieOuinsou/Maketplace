@@ -1,0 +1,187 @@
+/**
+ * Optimisations UX - Tendances 2024/2025
+ * Micro-interactions, accessibilité, espacement 8px, focus states
+ */
+
+:root {
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease;
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Skip link (accessibilité) */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    z-index: 10000;
+    transition: top 0.2s ease;
+}
+.skip-link:focus {
+    top: var(--space-md);
+}
+
+/* Typographie améliorée */
+body {
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus visible (clavier) */
+*:focus {
+    outline: none;
+}
+*:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Formulaires modernes */
+.form-control {
+    padding: 0.75rem 1rem !important;
+    border-radius: var(--radius-md) !important;
+    border: 1px solid #e2e8f0 !important;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast) !important;
+}
+.form-control:hover {
+    border-color: #cbd5e1 !important;
+}
+.form-control:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(0, 119, 130, 0.15) !important;
+}
+.form-group label {
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+}
+
+/* Boutons - micro-interactions */
+.btn {
+    border-radius: var(--radius-md) !important;
+    transition: transform var(--transition-fast), box-shadow var(--transition-normal), opacity var(--transition-fast) !important;
+}
+.btn:hover {
+    transform: translateY(-1px);
+}
+.btn:active {
+    transform: translateY(0);
+}
+.btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(0, 119, 130, 0.3);
+}
+.btn-outline:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Alertes / Messages d'erreur */
+.alert, .msg-alert, [class*="alert"] {
+    padding: var(--space-md) var(--space-lg) !important;
+    border-radius: var(--radius-md) !important;
+    border-left: 4px solid currentColor;
+    font-weight: 500;
+    transition: opacity var(--transition-fast);
+}
+.msg-error, [style*="fdf2f2"], [style*="f8d7da"] {
+    background: #fef2f2 !important;
+    color: #b91c1c !important;
+    border-left-color: #dc2626 !important;
+}
+.msg-success {
+    background: #f0fdf4 !important;
+    color: #166534 !important;
+    border-left-color: #22c55e !important;
+}
+
+/* Cartes - ombre progressive */
+.search-card, .item-card, .category-card {
+    border-radius: var(--radius-lg) !important;
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth) !important;
+}
+.search-card:hover, .item-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* Navbar - scroll blur optionnel */
+.navbar {
+    transition: box-shadow var(--transition-normal);
+}
+
+/* Footer moderne */
+footer, .site-footer {
+    background: white !important;
+    padding: var(--space-2xl) var(--space-lg) !important;
+    margin-top: var(--space-2xl) !important;
+    border-top: 1px solid #e5e7eb !important;
+    text-align: center;
+}
+footer p, .site-footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* Container - espacement cohérent */
+.container {
+    padding: 0 var(--space-lg) !important;
+}
+
+/* Auth forms & form cards */
+.auth-form, .form-card {
+    background: white;
+    border-radius: var(--radius-xl) !important;
+    box-shadow: var(--shadow-md) !important;
+    padding: var(--space-2xl) !important;
+    transition: box-shadow var(--transition-normal);
+}
+.form-card:hover {
+    box-shadow: var(--shadow-lg) !important;
+}
+
+/* Liens de navigation secondaires (retour, etc.) */
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: gap 0.2s ease, color 0.2s ease;
+}
+.back-link:hover {
+    gap: 0.5rem;
+}
+
+/* Réduction du mouvement (accessibilité) */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

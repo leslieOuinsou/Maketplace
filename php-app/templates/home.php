@@ -20,7 +20,7 @@ require __DIR__ . '/layout/header.php';
 </div>
 
 <?php if (isset($_GET['error'])): ?>
-<div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 6px; margin-bottom: 1rem;"><?= htmlspecialchars($_GET['error']) ?></div>
+<div class="msg-alert msg-error"><?= htmlspecialchars($_GET['error']) ?></div>
 <?php endif; ?>
 
 <!-- Hero Section -->

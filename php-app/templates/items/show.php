@@ -8,7 +8,7 @@
         <div class="msg-alert msg-error"><?= htmlspecialchars($_GET['error']) ?></div>
     <?php endif; ?>
 
-    <a href="/search" style="display: inline-block; margin-bottom: 1rem; color: var(--primary); text-decoration: none;">← Retour à la recherche</a>
+    <a href="/search" class="back-link" style="margin-bottom: 1rem;">← Retour à la recherche</a>
 
     <div class="item-detail" style="display: flex; gap: 2rem; margin-top: 1rem; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); flex-wrap: wrap;">
         <div style="flex: 1; min-width: 280px;">

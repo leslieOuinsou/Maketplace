@@ -12,12 +12,10 @@ $categories = $controller->getCategories();
     <h2>Vendre un article</h2>
     
     <?php if (isset($_GET['error'])): ?>
-        <div style="background: #fdf2f2; color: #dc3545; padding: 10px; margin-bottom: 1rem;">
-            <?= htmlspecialchars($_GET['error']) ?>
-        </div>
+        <div class="msg-alert msg-error"><?= htmlspecialchars($_GET['error']) ?></div>
     <?php endif; ?>
 
-    <form action="/items/create" method="POST" enctype="multipart/form-data" style="background: white; padding: 2rem; border-radius: 8px;">
+    <form action="/items/create" method="POST" enctype="multipart/form-data" class="form-card">
         <div class="form-group">
             <label for="title">Titre</label>
             <input type="text" id="title" name="title" class="form-control" required placeholder="ex: Jean Levi's 501">

@@ -331,8 +331,10 @@
         }
     </style>
     <link rel="stylesheet" href="/css/responsive.css">
+    <link rel="stylesheet" href="/css/ux-enhancements.css">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Aller au contenu principal</a>
     <nav class="navbar">
         <div class="navbar-inner">
             <a href="/" class="logo">
@@ -407,4 +409,4 @@
             }
         })();
     </script>
-    <div class="container">
+    <main id="main-content" class="container">

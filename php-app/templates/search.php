@@ -19,8 +19,9 @@
     </h3>
 
     <?php if (empty($results)): ?>
-        <div style="text-align: center; padding: 2rem; background: white; border-radius: 8px;">
-            <p>Aucun résultat trouvé. Essayez avec d'autres termes (vêtements, électronique, maison, sport...).</p>
+        <div class="empty-state">
+            <p>Aucun résultat trouvé.</p>
+            <p class="empty-state-hint">Essayez avec d'autres termes : vêtements, électronique, maison, sport...</p>
         </div>
     <?php else: ?>
         <div class="search-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
@@ -44,7 +45,16 @@
 </div>
 
 <style>
-.search-card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.search-card:hover { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.empty-state p { margin: 0.5rem 0; }
+.empty-state-hint { color: var(--text-light); font-size: 0.95rem; }
 @media (max-width: 768px) {
     .search-form { flex-direction: column !important; }
     .search-form .btn { width: 100%; }
