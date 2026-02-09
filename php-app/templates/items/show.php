@@ -88,8 +88,26 @@
     .item-detail { flex-direction: column !important; padding: 1rem !important; }
     .item-detail > div { min-width: 100% !important; }
     .item-detail h1 { font-size: 1.35rem !important; }
-    .item-detail .actions { flex-direction: column; }
-    .item-detail .actions .btn { width: 100%; }
+    .item-detail .actions {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 0.75rem;
+        width: 100%;
+    }
+    .item-detail .actions .btn {
+        width: 100%;
+        max-width: 100%;
+        min-height: 48px;
+        justify-content: center;
+        box-sizing: border-box;
+        padding: 1rem 1.25rem;
+    }
+}
+@media (max-width: 480px) {
+    .item-detail .actions .btn {
+        font-size: 1rem;
+        padding: 1rem;
+    }
 }
 </style>
 

@@ -3,7 +3,6 @@
 <div class="container">
     <div style="text-align: center; margin-bottom: 2rem;">
         <h1>Recherche Avancée</h1>
-        <p style="color: #666;">Propulsé par notre microservice Java • Recherchez parmi nos annonces</p>
     </div>
 
     <form action="/search" method="GET" class="search-form" style="max-width: 600px; margin: 0 auto 3rem; display: flex; gap: 10px;">
